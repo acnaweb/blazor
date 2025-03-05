@@ -1,18 +1,19 @@
-# Blazor
+#  Blazor WebAssembly
 
-
-### Criando a Aplicação Blazor
+### Criando a Aplicação  Blazor WebAssembly
 
 ```sh
 dotnet new list
 ```
 
 ```sh
-dotnet new blazor -o src/BlazorApp
-dotnet new gitignore
+dotnet new blazorwasm -o src/BlazorApp
 cd src/BlazorApp
 dotnet new sln -n BlazorApp
 dotnet sln add BlazorApp.csproj
+cd ../../
+dotnet new gitignore
+
 ```
 
 ### Rodando a Aplicação com Docker
@@ -26,7 +27,7 @@ docker build -t blazor-app .
 * Run
 
 ```sh
-docker run -p 8080:8080 blazor-app
+docker run -p 8080:80 blazor-app
 ```    
 
 Agora, a aplicação estará rodando em http://localhost:8080. 🚀

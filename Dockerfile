@@ -11,11 +11,17 @@ RUN dotnet restore
 COPY src/BlazorApp/ ./
 RUN dotnet publish -c Release -o /app/out
 
-# Etapa 2: Runtime
-FROM mcr.microsoft.com/dotnet/aspnet:8.0 AS runtime
-WORKDIR /app
-COPY --from=build /app/out ./
+# Etapa 2: Servidor Web (Nginx)
+FROM nginx:alpine AS runtime
+WORKDIR /usr/share/nginx/html
 
-# Expõe a porta da aplicação
-EXPOSE 8080
-CMD ["dotnet", "BlazorApp.dll"]
+# Remove arquivos padrão do Nginx
+RUN rm -rf ./*
+
+# Copia os arquivos da aplicação Blazor WASM
+COPY --from=build /app/out/wwwroot ./
+
+# Exposição da porta do Nginx
+EXPOSE 80
+
+CMD ["nginx", "-g", "daemon off;"]
